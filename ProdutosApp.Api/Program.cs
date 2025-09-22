@@ -1,4 +1,5 @@
 using FluentValidation;
+using Microsoft.AspNetCore.Builder;
 using ProdutosApp.Api.Configuration;
 using ProdutosApp.Application.Dtos.Request;
 using ProdutosApp.Application.Validations;
@@ -14,6 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddDependencyInjection();
 
 builder.Services.AddOpenApi();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -22,6 +24,9 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseAuthorization();
 

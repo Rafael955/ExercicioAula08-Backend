@@ -1,5 +1,7 @@
-﻿using ProdutosApp.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using ProdutosApp.Domain.Entities;
 using ProdutosApp.Domain.Interfaces;
+using ProdutosApp.Infra.Data.Contexts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,29 +12,46 @@ namespace ProdutosApp.Infra.Data.Repositories
 {
     public class ProdutosRepository : IProdutosRepository
     {
+        private readonly DataContext _context;
+
+        public ProdutosRepository(DataContext context)
+        {
+            _context = context;
+        }
+
         public void AddProduct(Produto produto)
         {
-            throw new NotImplementedException();
+            _context.Add(produto);
+            _context.SaveChanges();
         }
 
         public void UpdateProduct(Produto produto)
         {
-            throw new NotImplementedException();
+            _context.Update(produto);
+            _context.SaveChanges();
         }
 
         public void DeleteProduct(Produto produto)
         {
-            throw new NotImplementedException();
+            _context.Remove(produto);
+            _context.SaveChanges();
         }
 
         public Produto? GetProductById(Guid id)
         {
-            throw new NotImplementedException();
+            return _context.Set<Produto>()
+                .SingleOrDefault(p => p.IdProduto == id);
         }
 
         public List<Produto>? GetAllProducts()
         {
-            throw new NotImplementedException();
+            return _context.Set<Produto>().AsNoTracking().ToList();
+        }
+
+        public Produto? GetProductByName(string productName)
+        {
+            return _context.Set<Produto>()
+                .FirstOrDefault(p => p.Nome.ToUpper() == productName.ToUpper());
         }
     }
 }

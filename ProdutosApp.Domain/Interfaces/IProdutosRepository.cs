@@ -17,6 +17,8 @@ namespace ProdutosApp.Domain.Interfaces
 
         Produto? GetProductById(Guid id);
 
+        Produto? GetProductByName(string productName);
+
         List<Produto>? GetAllProducts();
     }
 }
